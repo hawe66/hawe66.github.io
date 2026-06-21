@@ -36,7 +36,8 @@
                 <a href="data/younghajo_resume.pdf">CV</a> &nbsp/&nbsp
                 <a href="https://github.com/hawe66">Github</a> &nbsp/&nbsp
                 <a href="mailto:youngha908@kaist.ac.kr">Email</a> &nbsp/&nbsp
-                <a href="https://docs.google.com/presentation/d/1XUjuibk0aRf4h2H6UVmnUL191yXZVwyTXw93B6Yd1Tw/edit?usp=sharing">전공 소개 슬라이드</a>
+                <a href="https://docs.google.com/presentation/d/1XUjuibk0aRf4h2H6UVmnUL191yXZVwyTXw93B6Yd1Tw/edit?usp=sharing">전공 소개 슬라이드</a> &nbsp/&nbsp
+                <a href="data/포트폴리오_조영하.pptx">포트폴리오</a>
               </p>
               <p>
                 <strong>Skills & Tools</strong>
@@ -71,7 +72,14 @@
               <p>
                 PoC development to service planning, working on AI systems from a production perspective.
               </p>
-              <p><strong>Key responsibilities:</strong></p>
+              <p><strong>Shinhan Card — AI Agent Evaluation Automation (AutoEval, real-time LLM-as-a-judge batch service):</strong> sole design &amp; implementation, jointly planned with Shinhan Card's product planner.</p>
+              <ul>
+                <li>Built a production batch architecture that collects and evaluates AI agent service logs from the operational DB on a 10-minute window — fault-tolerant via a DB state machine, with resumable/retryable processing on worker failure (FastAPI + SQLAlchemy)</li>
+                <li>Designed the LLM-as-a-judge evaluation scheme (turn- and session-level metrics), with intent/tool catalog–based structured evaluation and a delivery-payload assembly API for external integration</li>
+                <li>Optimized token and call usage for a closed-network shared-vLLM environment via a single structured judge prompt instead of per-metric calls</li>
+                <li>Live in Shinhan Card's production network (~100 QA per 10 min); validated judge reliability with a self-curated golden QA set and Grafana monitoring</li>
+              </ul>
+              <p><strong>Other responsibilities:</strong></p>
               <ul>
                 <li>Designed AI OCR/VLM model evaluation framework for insurance documents — built cell-level comparison with normalization logic for systematic comparison across document types and model versions</li>
                 <li>Planned and developed RFP-based proposal auto-generation PoC — designed and implemented agent pipeline from requirement analysis to PPT slide generation using LangGraph</li>
@@ -113,7 +121,7 @@
             </tr>
             <tr> 
               <td style="padding:20px;width:20%;vertical-align:middle">
-                <h3>Stable Predictive Coding Network Research (24.03~)</h3>
+                <h3>Stable Predictive Coding Network Research (24.01~)</h3>
                 <a href="images/spcn.png" style="display:block;text-align:center;"><img style="width:80%;max-width:80%" alt="Image 3" src="images/spcn.png" class="hoverZoomLink"></a>
               <a href="images/pcnanal.png" style="display:block;text-align:center;"><img style="width:80%;max-width:80%" alt="Image 4" src="images/pcnanal.png" class="hoverZoomLink"></a>
                 <p><strong>SPCN:</strong> Investigated <strong>stability issues</strong> in Predictive Coding Networks (PCN) and proposed a novel <strong>Stable Predictive Coding Network (SPCN)</strong>.
@@ -144,6 +152,18 @@
             <tr>
             <td style="padding:20px;width:100%;vertical-align:middle">
               <heading>Projects</heading>
+
+              <h3>Multimodal Manual RAG — Diagram-Grounded Manual QA (26.04~present)</h3>
+              <p>
+                A multimodal RAG over home-appliance manuals, targeting questions whose answers live <strong>only in diagrams</strong>, not in body text.
+                The goal is to make diagram information retrievable as embedded data, so that questions text-only RAG cannot answer become solvable.
+                (Follow-up to the Modulabs LLM study, conducted as an individual project.)
+              </p>
+              <ul>
+                <li><strong>Quantified the core hypothesis:</strong> curated an <em>image-required</em> golden set (part location, insertion direction, icon shape, etc.) and measured the text-only baseline's failure (model match 4/8) — evidence that diagram information must be embedded as data to solve these questions</li>
+                <li><strong>Agentic RAG + honest evaluation:</strong> built a 4-node graph (retrieve→grade→generate) with hybrid retrieval and a Korean reranker (Top-1 95.7%), evaluated with RAGAS and Refusal/Citation accuracy — decomposed by refusal-vs-answered and measurement-infrastructure diagnosis rather than reporting raw averages</li>
+                <li><strong>Phase 2 (in progress):</strong> confirmed instructional diagrams are entirely vector graphics, and is building cross-modal retrieval via page rasterize → vision embedding to answer diagram-dependent questions</li>
+              </ul>
 
               <h3>Agentic AI Knowledge Graph Explorer (25.12~present)</h3>
               <p>
