@@ -78,6 +78,7 @@
                 <li>Designed the LLM-as-a-judge evaluation scheme (turn- and session-level metrics), with intent/tool catalog–based structured evaluation and a delivery-payload assembly API for external integration</li>
                 <li>Optimized token and call usage for a closed-network shared-vLLM environment via a single structured judge prompt instead of per-metric calls</li>
                 <li>Live in Shinhan Card's production network (~100 QA per 10 min); validated judge reliability with a self-curated golden QA set and Grafana monitoring</li>
+                <li>Deployed and operated on the company's Kubernetes-based internal AI platform — brought up pods on the dev/production clusters via image and ConfigMap setup, promoted dev→production through a GitLab CI/CD pipeline, and diagnosed incidents with infra engineers from pod logs and resource state</li>
               </ul>
               <p><strong>Other responsibilities:</strong></p>
               <ul>
@@ -155,14 +156,14 @@
 
               <h3>Multimodal Manual RAG — Diagram-Grounded Manual QA (26.04~present)</h3>
               <p>
-                A multimodal RAG over home-appliance manuals, targeting questions whose answers live <strong>only in diagrams</strong>, not in body text.
-                The goal is to make diagram information retrievable as embedded data, so that questions text-only RAG cannot answer become solvable.
-                (Follow-up to the Modulabs LLM study, conducted as an individual project.)
+                A 12-week individual project on documents whose answers live <strong>in diagrams rather than body text</strong> — home-appliance manuals —
+                grown in stages from text RAG to cross-modal retrieval to a multimodal agent.
               </p>
               <ul>
-                <li><strong>Quantified the core hypothesis:</strong> curated an <em>image-required</em> golden set (part location, insertion direction, icon shape, etc.) and measured the text-only baseline's failure (model match 4/8) — evidence that diagram information must be embedded as data to solve these questions</li>
-                <li><strong>Agentic RAG + honest evaluation:</strong> built a 4-node graph (retrieve→grade→generate) with hybrid retrieval and a Korean reranker (Top-1 95.7%), evaluated with RAGAS and Refusal/Citation accuracy — decomposed by refusal-vs-answered and measurement-infrastructure diagnosis rather than reporting raw averages</li>
-                <li><strong>Phase 2 (in progress):</strong> confirmed instructional diagrams are entirely vector graphics, and is building cross-modal retrieval via page rasterize → vision embedding to answer diagram-dependent questions</li>
+                <li><strong>Built the benchmark and metrics myself:</strong> a 61-question golden set over 6 manuals (252 pages), including 27 <em>image-required</em> questions whose answers exist only in diagrams; automated the evaluation pipeline with RAGAS plus domain metrics (Citation, Refusal)</li>
+                <li><strong>Retrieval:</strong> Dense-only Top-1 60.9% → Hybrid (BM25+Dense, RRF) + cross-encoder reranker 91.3% → LangGraph 4-node Agentic RAG with Self-Query 95.7%</li>
+                <li><strong>Cross-modal design decision:</strong> instead of CLIP image embeddings (12%), adopted VLM-generated structured captions (75%) merged into the text index; a 3-way comparison of page-level vs. region-level captioning settled on region-level (image-required correct 0/27 → 8/27, +6% latency)</li>
+                <li><strong>Failure analysis and recorded decisions:</strong> isolated 6 cases that had the evidence but failed to answer, re-running generation with context held fixed — the prompt fix reduced refusals but introduced hallucinations and confident wrong answers, so it was rejected. Ran the project on a Claude Code loop (weekly spec → implementation → retrospective → ADR), accumulating 12 ADRs</li>
               </ul>
 
               <h3>Agentic AI Knowledge Graph Explorer (25.12~present)</h3>
@@ -219,6 +220,7 @@
                 <li>Designed a knowledge graph schema with 11 core Principles, 31 Methods, 16 Implementations (67 nodes, 79 relationships)</li>
                 <li>Built a 4-node LangGraph pipeline: Intent Classifier → Search Planner → Graph Retriever → Synthesizer</li>
                 <li>Implemented Neo4j client (520 lines) with domain-specific Cypher queries</li>
+                <li>Added a Critic agent quality gate (evidence, duplication, consistency checks) with a re-search loop so the graph expands itself; Tavily for web expansion</li>
                 <li>Developed with Claude Code for rapid prototyping</li>
               </ul>
               <p>GitHub: <a href="https://github.com/hawe66/agentic-kg-explorer">https://github.com/hawe66/agentic-kg-explorer</a></p>
