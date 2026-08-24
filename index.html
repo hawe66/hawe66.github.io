@@ -22,7 +22,7 @@
               </p>
 
               <p>
-                I am an end-to-end ML engineer at LG CNS GenAI Business Team — I self-learn whatever a problem needs and carry models from design and training through evaluation, serving, and operation. At LG CNS I've worked across LLM services from PoC planning to production, including a real-time LLM-as-a-judge evaluation batch service deployed in a financial client's production network.
+                I am an end-to-end ML engineer at LG CNS AgenticAI Platform Business Team — I self-learn whatever a problem needs and carry models from design and training through evaluation, serving, and operation. At LG CNS I've worked across LLM services from PoC planning to production, including a real-time LLM-as-a-judge evaluation batch service deployed in a financial client's production network.
                 Previously, I graduated with a Master's degree from <a href="https://aibrain.kaist.ac.kr/">Brain and Machine Intelligence Lab (BML)</a> at KAIST, advised by Sang Wan Lee, where I ran event-cognition research end to end — from hypothesis to a Human-AI experiment platform and deep-learning models.
                 Before KAIST, I completed a recommender system track at <a href="https://github.com/boostcampaitech3">Naver Boostcamp AI Tech</a> (3rd cohort).
                 I received my B.S. in Electrical and Electronic Engineering (minor in Psychology) from Yonsei University,
@@ -44,9 +44,9 @@
                 <ul>
                   <li>Programming Languages: Python (Advanced), C++ (Intermediate), JavaScript, C#</li>
                   <li>Machine Learning: PyTorch (Advanced), Tensorflow</li>
-                  <li>LLM & Agent Development: LangChain/LangGraph, Hugging Face, MCP</li>
-                  <li>Backend & Database: FastAPI, Node.js, PostgreSQL, Neo4j, MongoDB, Firebase</li>
-                  <li>Tools & Platforms: Streamlit, Git, Unity, Docker</li>
+                  <li>LLM & Agent Development: LangChain/LangGraph, Hugging Face, MCP, vLLM, LangSmith</li>
+                  <li>Backend & Database: FastAPI, Node.js, PostgreSQL, Neo4j, MongoDB, ChromaDB, Firebase</li>
+                  <li>Tools & Platforms: Streamlit, Git, GitLab CI/CD, Unity, Docker</li>
                 </ul>
               </p>
               <p>
@@ -68,16 +68,16 @@
             <tr>
             <td style="padding:20px;width:100%;vertical-align:middle">
               <heading>Experience</heading>
-              <h3>LG CNS GenAI Business Team | AI Engineer (2025.07 ~ present)</h3>
+              <h3>LG CNS AgenticAI Platform Business Team | AI Engineer (2025.07 ~ present)</h3>
               <p>
                 PoC development to service planning, working on AI systems from a production perspective.
               </p>
               <p><strong>Shinhan Card — AI Agent Evaluation Automation (AutoEval, real-time LLM-as-a-judge batch service):</strong> sole design &amp; implementation, jointly planned with Shinhan Card's product planner.</p>
               <ul>
-                <li>Built a production batch architecture that collects and evaluates AI agent service logs from the operational DB on a 10-minute window — fault-tolerant via a DB state machine, with resumable/retryable processing on worker failure (FastAPI + SQLAlchemy)</li>
+                <li>Built a production batch architecture that collects and evaluates AI agent service logs from the operational DB on a 10-minute window — processing resumes from where it left off after an interruption, and failed items can be retried (FastAPI + SQLAlchemy)</li>
                 <li>Designed the LLM-as-a-judge evaluation scheme (turn- and session-level metrics), with intent/tool catalog–based structured evaluation and a delivery-payload assembly API for external integration</li>
                 <li>Optimized token and call usage for a closed-network shared-vLLM environment via a single structured judge prompt instead of per-metric calls</li>
-                <li>Live in Shinhan Card's production network (~100 QA per 10 min); validated judge reliability with a self-curated golden QA set and Grafana monitoring</li>
+                <li>Live in Shinhan Card's production network (300+ QA per 10 min at peak); validated judge reliability with a self-curated golden QA set and Grafana monitoring</li>
                 <li>Deployed and operated on the company's Kubernetes-based internal AI platform — brought up pods on the dev/production clusters via image and ConfigMap setup, promoted dev→production through a GitLab CI/CD pipeline, and diagnosed incidents with infra engineers from pod logs and resource state</li>
               </ul>
               <p><strong>Other responsibilities:</strong></p>
@@ -163,7 +163,7 @@
             <td style="padding:20px;width:100%;vertical-align:middle">
               <heading>Projects</heading>
 
-              <h3>Multimodal Manual RAG — Diagram-Grounded Manual QA (26.04~present)</h3>
+              <h3>Multimodal Manual RAG — Diagram-Grounded Manual QA (26.04~26.07)</h3>
               <p>
                 A 12-week individual project on documents whose answers live <strong>in diagrams rather than body text</strong> — home-appliance manuals —
                 grown in stages from text RAG to cross-modal retrieval to a multimodal agent.
@@ -174,8 +174,22 @@
                 <li><strong>Cross-modal design decision:</strong> instead of CLIP image embeddings (12%), adopted VLM-generated structured captions (75%) merged into the text index; a 3-way comparison of page-level vs. region-level captioning settled on region-level (image-required correct 0/27 → 8/27, +6% latency)</li>
                 <li><strong>Failure analysis and recorded decisions:</strong> isolated 6 cases that had the evidence but failed to answer, re-running generation with context held fixed — the prompt fix reduced refusals but introduced hallucinations and confident wrong answers, so it was rejected. Ran the project on a Claude Code loop (weekly spec → implementation → retrospective → ADR), accumulating 12 ADRs</li>
               </ul>
+              <div style="display:grid; grid-template-columns:1.35fr 1fr; gap:12px; align-items:center; margin:15px 0;">
+                <div style="text-align:center;">
+                  <a href="images/rag_manual_page.png"><img src="images/rag_manual_page.png" style="width:100%; border:1px solid #e0e0e0;" alt="Vacuum cleaner manual page" class="hoverZoomLink"></a>
+                  <small>The body text lists only what part ⑧ <em>does</em> — "a switch that adjusts and stops suction."</small>
+                </div>
+                <div style="text-align:center;">
+                  <a href="images/rag_manual_callout.png"><img src="images/rag_manual_callout.png" style="width:100%; border:1px solid #e0e0e0;" alt="Callout 8 close-up" class="hoverZoomLink"></a>
+                  <small>Where it sits — on top of the hose grip — exists only at the end of a leader line in the diagram.</small>
+                </div>
+              </div>
+              <p style="font-size:small; color:#666;">
+                "Where is the suction control switch?" is answerable only from the figure. Text-only retrieval refused; whole-page captioning got it partially; region-level captioning answered it.
+                Figure from LG Electronics' public product manual (K83), used here to illustrate the problem.
+              </p>
 
-              <h3>Agentic AI Knowledge Graph Explorer (25.12~present)</h3>
+              <h3>Agentic AI Knowledge Graph Explorer (25.11~26.02)</h3>
               <p>
                 A knowledge exploration system that tracks the co-evolution of AI research (papers) and services (frameworks)
                 in the Agentic AI domain, built with LangGraph + Neo4j + ChromaDB.
